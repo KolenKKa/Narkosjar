@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SakuraShop | Портфолио</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Georgia', serif;
+    background: #0a0a0a;
+    color: #f5f5f5;
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
+  }
+
+  /* === ЛЕПЕСТКИ САКУРЫ === */
+  .petals-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  .petal {
+    position: absolute;
+    top: -50px;
+    background: radial-gradient(ellipse at center, #ffffff 0%, #e8e8e8 70%, #b8b8b8 100%);
+    width: 14px;
+    height: 18px;
+    border-radius: 150% 0 150% 0;
+    opacity: 0.85;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+    animation: fall linear infinite;
+  }
+
+  @keyframes fall {
+    0% {
+      transform: translateY(-10vh) translateX(0) rotate(0deg);
+      opacity: 0;
+    }
+    10% { opacity: 0.85; }
+    90% { opacity: 0.85; }
+    100% {
+      transform: translateY(110vh) translateX(150px) rotate(720deg);
+      opacity: 0;
+    }
+  }
+
+  /* === ОБЩИЕ СТИЛИ === */
+  .container {
+    position: relative;
+    z-index: 2;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 24px;
+    opacity: 0;
+    transform: translateY(60px);
+    transition: opacity 1.2s ease, transform 1.2s ease;
+  }
+
+  section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  h1, h2 {
+    font-family: 'Georgia', serif;
+    letter-spacing: 2px;
+    color: #fff;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+  }
+
+  h1 {
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    margin-bottom: 30px;
+    text-align: center;
+  }
+
+  h1::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 2px;
+    background: #fff;
+    margin: 20px auto 0;
+  }
+
+  h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin-bottom: 40px;
+    text-align: center;
+  }
+
+  /* === ХЕДЕР "КТО Я?" === */
+  .hero {
+    text-align: center;
+  }
+
+  .hero p {
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    line-height: 1.9;
+    max-width: 750px;
+    margin: 0 auto;
+    color: #d0d0d0;
+    font-style: italic;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #888;
+    font-size: 0.9rem;
+    letter-spacing: 3px;
+    animation: bounce 2s infinite;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translate(-50%, 0); }
+    50% { transform: translate(-50%, -10px); }
+  }
+
+  /* === СЛАЙДЕР === */
+  .slider-wrapper {
+    width: 100%;
+    max-width: 900px;
+  }
+
+  .slider {
+    position: relative;
+    background: rgba(20, 20, 20, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    padding: 50px 40px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  }
+
+  .slide {
+    display: none;
+    animation: fadeIn 0.6s ease;
+  }
+
+  .slide.active {
+    display: block;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .slide-number {
+    color: #888;
+    font-size: 0.9rem;
+    letter-spacing: 4px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+  }
+
+  .slide h3 {
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    color: #fff;
+    margin-bottom: 20px;
+  }
+
+  .slide .bot-link {
+    display: inline-block;
+    padding: 10px 24px;
+    background: transparent;
+    border: 1px solid #fff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 50px;
+    margin: 15px 0;
+    transition: all 0.3s;
+    font-family: monospace;
+    letter-spacing: 1px;
+  }
+
+  .slide .bot-link:hover {
+    background: #fff;
+    color: #000;
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.4);
+  }
+
+  .slide .description {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #c8c8c8;
+    margin-top: 20px;
+  }
+
+  .slider-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;
+  }
+
+  .slider-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: all 0.3s;
+  }
+
+  .slider-btn:hover {
+    background: #fff;
+    color: #000;
+    border-color: #fff;
+  }
+
+  .dots {
+    display: flex;
+    gap: 10px;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .dot.active {
+    background: #fff;
+    transform: scale(1.3);
+  }
+
+  /* === КОНТАКТЫ === */
+  .contacts {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .contacts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    width: 100%;
+    max-width: 800px;
+    margin-top: 20px;
+  }
+
+  .contact-card {
+    padding: 40px 30px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    text-decoration: none;
+    color: #fff;
+    transition: all 0.4s;
+    display: block;
+  }
+
+  .contact-card:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: translateY(-8px);
+    border-color: #fff;
+    box-shadow: 0 15px 40px rgba(255, 255, 255, 0.15);
+  }
+
+  .contact-card .icon {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+  }
+
+  .contact-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+    color: #fff;
+  }
+
+  .contact-card p {
+    color: #aaa;
+    font-family: monospace;
+    font-size: 1rem;
+  }
+
+  footer {
+    text-align: center;
+    padding: 30px;
+    color: #555;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    position: relative;
+    z-index: 2;
+  }
+
+  @media (max-width: 600px) {
+    .slider { padding: 35px 25px; }
+    .slider-btn { width: 42px; height: 42px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Падающие лепестки -->
+<div class="petals-container" id="petals"></div>
+
+<!-- СЕКЦИЯ 1: КТО Я? -->
+<section class="hero">
+  <div class="container">
+    <h1>Кто я?</h1>
+    <p>
+      Мне 13 лет, я учусь в 7 классе. Занимаюсь разработкой Telegram-ботов на Python и aiogram,
+      владею HTML-вёрсткой. Моя цель — выйти на стабильный заработок через программирование
+      и реализовать свои самые смелые мечты.
+    </p>
+  </div>
+  <div class="scroll-hint">SCROLL ↓</div>
+</section>
+
+<!-- СЕКЦИЯ 2: РАБОТЫ -->
+<section>
+  <div class="container">
+    <div class="slider-wrapper">
+      <h2>Мои работы</h2>
+      <div class="slider">
+        <div class="slide active">
+          <div class="slide-number">Проект № 01</div>
+          <h3>🌸 SakuraShop</h3>
+          <a href="https://t.me/gt1337a_bot" target="_blank" class="bot-link">@gt1337a_bot</a>
+          <p class="description">
+            Telegram-бот на aiogram, созданный как концепт-макет современного интернет-магазина.
+            Проект демонстрирует архитектуру бота, работу с меню и интерактивные сценарии взаимодействия с пользователем.
+          </p>
+        </div>
+
+        <div class="slide">
+          <div class="slide-number">Проект № 02</div>
+          <h3>📝 Следующий проект</h3>
+          <p class="description">
+            Впереди новые идеи и разработки. Место для следующего проекта уже готово —
+            остаётся только создать.
+          </p>
+        </div>
+      </div>
+
+      <div class="slider-controls">
+        <button class="slider-btn" id="prev">←</button>
+        <div class="dots" id="dots"></div>
+        <button class="slider-btn" id="next">→</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- СЕКЦИЯ 3: КОНТАКТЫ -->
+<section class="contacts">
+  <div class="container" style="width:100%; display:flex; flex-direction:column; align-items:center;">
+    <h2>Контакты</h2>
+    <div class="contacts-grid">
+      <a href="https://t.me/Narko62" target="_blank" class="contact-card">
+        <div class="icon">✈</div>
+        <h3>Telegram</h3>
+        <p>@Narko62</p>
+      </a>
+      <a href="https://t.me/Narkoshar2" target="_blank" class="contact-card">
+        <div class="icon">📢</div>
+        <h3>Telegram-канал</h3>
+        <p>t.me/Narkoshar2</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>© 2026 · Made with 🌸</footer>
+
+<script>
+  /* === Генерация лепестков === */
+  const petalsContainer = document.getElementById('petals');
+  const PETAL_COUNT = 35;
+
+  for (let i = 0; i < PETAL_COUNT; i++) {
+    const petal = document.createElement('div');
+    petal.classList.add('petal');
+    petal.style.left = Math.random() * 100 + '%';
+    petal.style.animationDuration = (Math.random() * 8 + 7) + 's';
+    petal.style.animationDelay = (Math.random() * 10) + 's';
+    const scale = Math.random() * 0.7 + 0.6;
+    petal.style.transform = `scale(${scale})`;
+    petalsContainer.appendChild(petal);
+  }
+
+  /* === Scroll-анимации появления === */
+  const sections = document.querySelectorAll('section');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.2 });
+
+  sections.forEach(sec => observer.observe(sec));
+
+  /* === Слайдер === */
+  const slides = document.querySelectorAll('.slide');
+  const dotsContainer = document.getElementById('dots');
+  let current = 0;
+
+  // создаём точки
+  slides.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.classList.add('dot');
+    if (i === 0) dot.classList.add('active');
+    dot.addEventListener('click', () => goTo(i));
+    dotsContainer.appendChild(dot);
+  });
+
+  const dots = document.querySelectorAll('.dot');
+
+  function goTo(index) {
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    current = (index + slides.length) % slides.length;
+    slides[current].classList.add('active');
+    dots[current].classList.add('active');
+  }
+
+  document.getElementById('next').addEventListener('click', () => goTo(current + 1));
+  document.getElementById('prev').addEventListener('click', () => goTo(current - 1));
+
+  /* Свайпы на мобильном */
+  let startX = 0;
+  const slider = document.querySelector('.slider');
+  slider.addEventListener('touchstart', e => startX = e.touches[0].clientX);
+  slider.addEventListener('touchend', e => {
+    const diff = e.changedTouches[0].clientX - startX;
+    if (Math.abs(diff) > 50) goTo(current + (diff < 0 ? 1 : -1));
+  });
+</script>
+
+</body>
+</html>
