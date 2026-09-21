@@ -2,563 +2,300 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Narkosha | Портфолио</title>
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+<meta name="description" content="Портфолио Narkosha: Telegram-боты на Python и aiogram, HTML-вёрстка. Посмотри работы и попробуй демо бота прямо на сайте.">
 
-  html { scroll-behavior: smooth; }
+<!-- Open Graph: красивая карточка при отправке ссылки в Telegram.
+     Когда сделаешь картинку 1200x630, залей её рядом и раскомментируй строку с og:image -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Narkosha | Портфолио">
+<meta property="og:description" content="Telegram-боты на Python и aiogram + HTML-вёрстка. Демо бота прямо на сайте 🌸">
+<meta property="og:url" content="https://narkoshar.vercel.app/">
+<!-- <meta property="og:image" content="https://narkoshar.vercel.app/preview.png"> -->
+<meta name="theme-color" content="#e8407b">
 
-  body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #0a0a0a;
-    color: #f5f5f5;
-    overflow-x: hidden;
-    position: relative;
-    min-height: 100vh;
-  }
-
-  /* === НАВИГАЦИЯ === */
-  nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 20px 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 1000;
-    background: rgba(10, 10, 10, 0.9);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    transition: all 0.3s ease;
-  }
-
-  .logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-    letter-spacing: 2px;
-    color: #fff;
-    text-decoration: none;
-    cursor: pointer;
-  }
-
-  .nav-links {
-    display: flex;
-    gap: 30px;
-  }
-
-  .nav-link {
-    color: #ccc;
-    text-decoration: none;
-    font-size: 1rem;
-    transition: color 0.3s, transform 0.1s;
-    position: relative;
-    cursor: pointer;
-    user-select: none;
-  }
-
-  .nav-link:hover {
-    color: #fff;
-  }
-
-  .nav-link:active {
-    transform: scale(0.95);
-    color: #aaa;
-  }
-
-  .nav-link.active {
-    color: #fff;
-    font-weight: bold;
-  }
-
-  .nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: #fff;
-    transition: width 0.3s;
-  }
-
-  .nav-link:hover::after, .nav-link.active::after {
-    width: 100%;
-  }
-
-  @media (max-width: 768px) {
-    nav { padding: 15px 20px; }
-    .nav-links { display: none; }
-    .logo { font-size: 1.2rem; }
-  }
-
-  /* === ЛЕПЕСТКИ САКУРЫ === */
-  .petals-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 1;
-    overflow: hidden;
-  }
-
-  .petal {
-    position: absolute;
-    top: -50px;
-    background: radial-gradient(ellipse at center, #ffffff 0%, #e8e8e8 70%, #b8b8b8 100%);
-    width: 14px;
-    height: 18px;
-    border-radius: 150% 0 150% 0;
-    opacity: 0.85;
-    box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
-    animation: fall linear infinite;
-  }
-
-  @keyframes fall {
-    0% { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 0; }
-    10% { opacity: 0.85; }
-    90% { opacity: 0.85; }
-    100% { transform: translateY(110vh) translateX(150px) rotate(720deg); opacity: 0; }
-  }
-
-  /* === ОБЩИЕ СТИЛИ КОНТЕНТА === */
-  .main-content {
-    position: relative;
-    z-index: 2;
-    max-width: 1100px;
-    margin: 0 auto;
-    padding-top: 80px;
-  }
-
-  section {
-    padding: 60px 24px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
-    min-height: auto;
-  }
-
-  section.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  h1, h2 {
-    font-family: 'Georgia', serif;
-    letter-spacing: 2px;
-    color: #fff;
-    text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
-    margin-bottom: 20px;
-    text-align: center;
-  }
-
-  h1 { font-size: clamp(2rem, 5vw, 3.5rem); }
-  h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); margin-top: 20px; }
-
-  .section-divider {
-    width: 100%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-    margin: 20px 0;
-  }
-
-  /* === ХЕДЕР "КТО Я?" === */
-  .hero-text {
-    text-align: center;
-    max-width: 700px;
-    line-height: 1.8;
-    font-size: 1.1rem;
-    color: #d0d0d0;
-    font-style: italic;
-  }
-
-  /* === НОВАЯ СЕТКА ПРОЕКТОВ (3 ПРЯМОУГОЛЬНИКА) === */
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Три колонки равной ширины */
-    gap: 25px;
-    width: 100%;
-    max-width: 1000px;
-    margin-top: 30px;
-  }
-
-  .project-card {
-    background: rgba(20, 20, 20, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 16px;
-    padding: 30px 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 350px; /* Фиксированная высота для ровности */
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-    position: relative;
-    overflow: hidden;
-    backdrop-filter: blur(5px);
-  }
-
-  .project-card:hover {
-    transform: translateY(-10px);
-    border-color: rgba(255, 255, 255, 0.4);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
-    background: rgba(30, 30, 30, 0.8);
-  }
-
-  /* Декоративный элемент сверху карточки */
-  .project-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    background: linear-gradient(90deg, #fff, #888);
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-
-  .project-card:hover::before {
-    opacity: 1;
-  }
-
-  .card-header {
-    margin-bottom: 15px;
-  }
-
-  .card-icon {
-    font-size: 2rem;
-    margin-bottom: 10px;
-    display: block;
-  }
-
-  .card-title {
-    font-size: 1.3rem;
-    color: #fff;
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
-
-  .card-tag {
-    font-size: 0.8rem;
-    color: #888;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-
-  .card-desc {
-    font-size: 0.95rem;
-    color: #bbb;
-    line-height: 1.5;
-    flex-grow: 1; /* Занимает свободное место */
-    margin-bottom: 20px;
-  }
-
-  .card-btn {
-    display: inline-block;
-    width: 100%;
-    text-align: center;
-    padding: 12px 0;
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: #fff;
-    text-decoration: none;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    transition: all 0.3s;
-    cursor: pointer;
-  }
-
-  .card-btn:hover {
-    background: #fff;
-    color: #000;
-    border-color: #fff;
-  }
-  
-  /* Стиль для кнопок "скоро/заглушек" */
-  .card-btn.disabled {
-      border-style: dashed;
-      color: #888;
-      cursor: default;
-  }
-  .card-btn.disabled:hover {
-      background: transparent;
-      color: #888;
-      border-color: #888;
-  }
-
-  /* Адаптив для мобильных: превращаем 3 колонки в 1 */
-  @media (max-width: 900px) {
-    .projects-grid {
-      grid-template-columns: repeat(2, 1fr); /* На планшетах 2 колонки */
-    }
-  }
-
-  @media (max-width: 600px) {
-    .projects-grid {
-      grid-template-columns: 1fr; /* На телефонах 1 колонка */
-    }
-    .project-card {
-      height: auto; /* Высота по содержимому */
-      min-height: 280px;
-    }
-  }
-
-  /* === КОНТАКТЫ === */
-  .contacts-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    width: 100%;
-    max-width: 700px;
-    margin-top: 10px;
-  }
-
-  .contact-card {
-    padding: 30px 20px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 16px;
-    text-decoration: none;
-    color: #fff;
-    transition: all 0.3s;
-    display: block;
-    text-align: center;
-    cursor: pointer;
-  }
-
-  .contact-card:hover {
-    background: rgba(255, 255, 255, 0.12);
-    transform: translateY(-5px);
-    border-color: #fff;
-    box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
-  }
-  
-  .contact-card:active {
-      transform: translateY(-2px) scale(0.98);
-  }
-
-  .contact-card .icon {
-    font-size: 2rem;
-    margin-bottom: 10px;
-  }
-
-  .contact-card h3 {
-    font-size: 1.1rem;
-    margin-bottom: 5px;
-    color: #fff;
-    font-family: 'Segoe UI', sans-serif;
-  }
-
-  .contact-card p {
-    color: #aaa;
-    font-family: monospace;
-    font-size: 0.9rem;
-  }
-
-  footer {
-    text-align: center;
-    padding: 40px 20px;
-    color: #555;
-    font-size: 0.85rem;
-    letter-spacing: 2px;
-    position: relative;
-    z-index: 2;
-    margin-top: 40px;
-  }
-</style>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌸</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Unbounded:wght@500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- Навигация -->
-<nav id="navbar">
-  <a href="#about" class="logo nav-scroll-link">Narkosha</a>
-  <div class="nav-links">
-    <a href="#about" class="nav-link nav-scroll-link active">Кто я?</a>
-    <a href="#works" class="nav-link nav-scroll-link">Мои работы</a>
-    <a href="#contacts" class="nav-link nav-scroll-link">Контакты</a>
+<canvas id="petals" aria-hidden="true"></canvas>
+
+<!-- ============ HEADER ============ -->
+<header class="header" id="header">
+  <div class="container bar">
+    <a href="#top" class="logo" aria-label="Narkosha — наверх">Narkosha<span>🌸</span></a>
+    <nav class="nav" id="nav" aria-label="Основная навигация">
+      <a href="#about">Кто я?</a>
+      <a href="#works">Мои работы</a>
+      <a href="#demo">Демо бота</a>
+      <a href="#path">Мой путь</a>
+      <a href="#services">Услуги</a>
+      <a href="#contacts">Контакты</a>
+    </nav>
+    <div class="tools">
+      <button class="icon-btn" id="theme" aria-label="Сменить тему">
+        <svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      </button>
+      <button class="icon-btn burger" id="burger" aria-label="Меню" aria-expanded="false">
+        <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
   </div>
-</nav>
+  <div class="progress" id="progress"></div>
+</header>
 
-<!-- Падающие лепестки -->
-<div class="petals-container" id="petals"></div>
-
-<div class="main-content">
-  
-  <!-- СЕКЦИЯ 1: КТО Я? -->
-  <section id="about" class="visible">
-    <h1>Кто я?</h1>
-    <p class="hero-text">
-      Мне 13 лет, я учусь в 7 классе. Занимаюсь разработкой Telegram-ботов на Python и aiogram,
-      владею HTML-вёрсткой. Моя цель — выйти на стабильный заработок через программирование
-      и реализовать свои самые смелые мечты.
-    </p>
-  </section>
-
-  <div class="section-divider"></div>
-
-  <!-- СЕКЦИЯ 2: РАБОТЫ (НОВАЯ СЕТКА) -->
-  <section id="works">
-    <h2>Мои работы</h2>
-    <div class="projects-grid">
-      
-      <!-- Проект 1: Реальный рабочий бот -->
-      <div class="project-card">
-        <div class="card-header">
-          <span class="card-icon">🛒</span>
-          <h3 class="card-title">SakuraShop Bot</h3>
-          <span class="card-tag">Python / Aiogram</span>
+<main>
+  <!-- ============ HERO ============ -->
+  <div class="hero" id="top">
+    <div class="container hero-grid">
+      <div>
+        <span class="eyebrow reveal in">Портфолио · Python &amp; Web</span>
+        <h1 class="reveal in" style="--d:.1s">Привет, я <em>Narkosha</em></h1>
+        <p class="typed reveal in" style="--d:.2s">Я делаю <b id="typed"></b><span class="caret"></span></p>
+        <p class="lead reveal in" style="--d:.3s">Пишу Telegram-ботов на Python и aiogram, верстаю сайты и каждый день учусь новому. Ниже мои работы, а бота можно даже попробовать прямо здесь.</p>
+        <div class="cta reveal in" style="--d:.4s">
+          <a href="#works" class="btn">Смотреть работы →</a>
+          <a href="https://t.me/Narko62" target="_blank" rel="noopener" class="btn ghost">Написать в Telegram</a>
         </div>
-        <p class="card-desc">
-          Интерактивный бот-магазин. Демонстрация архитектуры меню, корзины и оплаты. 
-          Полный цикл разработки от идеи до запуска.
-        </p>
-        <a href="https://t.me/gt1337a_bot" target="_blank" class="card-btn">Открыть Бота ➔</a>
       </div>
 
-      <!-- Проект 2: Сайт Minecraft Сервера (НОВЫЙ) -->
-      <div class="project-card">
-        <div class="card-header">
-          <span class="card-icon">⛏️</span>
-          <h3 class="card-title">MC Server Landing Page</h3>
-          <span class="card-tag">HTML / CSS / JS</span>
+      <div class="hero-visual reveal in" data-dir="zoom" style="--d:.25s">
+        <div class="glow"></div>
+        <div class="code">
+          <div class="dots"><i></i><i></i><i></i><span>bot.py</span></div>
+<pre><code><span class="c"># мой первый /start 🌸</span>
+<span class="k">@dp</span>.message(<span class="f">Command</span>(<span class="s">"start"</span>))
+<span class="k">async def</span> <span class="f">start</span>(msg: Message):
+    <span class="k">await</span> msg.answer(
+        <span class="s">"Привет! Добро пожаловать 🌸"</span>,
+        reply_markup=main_menu()
+    )</code></pre>
         </div>
-        <p class="card-desc">
-          Лендинг для игрового сервера с уникальными режимами (SkyWars, BedWars).
-          Дизайн включает информацию об античите, производительности и ценах.
-        </p>
-        <a href="https://kolenkka.github.io/tester/" target="_blank" class="card-btn">Посмотреть Сайт ➔</a>
+        <span class="chip-float c1">🐍 Python</span>
+        <span class="chip-float c2">✈️ aiogram</span>
+        <span class="chip-float c3">🧱 HTML / CSS</span>
+        <span class="chip-float c4">⚡ JavaScript</span>
+      </div>
+    </div>
+    <div class="scroll-hint" aria-hidden="true"></div>
+  </div>
+
+  <!-- ============ ABOUT ============ -->
+  <section id="about">
+    <div class="container about">
+      <div class="reveal" data-dir="left">
+        <span class="eyebrow">Кто я?</span>
+        <h2>Мне 13 лет и я уже пишу ботов</h2>
+        <p>Мне 13 лет, я учусь в 7 классе. Занимаюсь разработкой Telegram-ботов на Python и aiogram, владею HTML-вёрсткой. Моя цель — выйти на стабильный заработок через программирование и реализовать свои самые смелые мечты.</p>
+        <div class="facts">
+          <div><b data-count="2">0</b><span>готовых проекта</span></div>
+          <div><b data-count="1">0</b><span>проект в разработке</span></div>
+          <div><b data-count="100" data-suffix="%">0</b><span>энтузиазма</span></div>
+        </div>
       </div>
 
-      <!-- Проект 3: Заглушка -->
-      <div class="project-card">
-        <div class="card-header">
-          <span class="card-icon">🚀</span>
-          <h3 class="card-title">Будущий Проект</h3>
-          <span class="card-tag">In Development</span>
+      <div class="stack reveal" data-dir="right" style="--d:.15s">
+        <h3>Мой стек</h3>
+        <div class="tags">
+          <span>🐍 Python</span><span>✈️ aiogram</span><span>🤖 Telegram Bot API</span>
+          <span>🧱 HTML</span><span>🎨 CSS</span><span>⚡ JavaScript</span>
         </div>
-        <p class="card-desc">
-          Секретный проект над которым я работаю прямо сейчас. 
-          Подробности появятся совсем скоро!
-        </p>
-        <button class="card-btn disabled">Скоро будет... ⏳</button>
+        <!-- Отредактируй под себя: что реально изучаешь сейчас -->
+        <h3 class="next">Следующие цели</h3>
+        <div class="tags soft">
+          <span>🗄️ SQLite</span><span>🌿 Git / GitHub</span><span>☁️ Хостинг ботов</span>
+        </div>
       </div>
-
     </div>
   </section>
 
-  <div class="section-divider"></div>
+  <!-- ============ WORKS ============ -->
+  <section id="works" class="alt">
+    <div class="container">
+      <div class="sec-head">
+        <div class="reveal">
+          <span class="eyebrow">Портфолио</span>
+          <h2>Мои работы</h2>
+        </div>
+        <div class="filters reveal" style="--d:.1s" id="filters">
+          <button class="fchip on" data-f="all">Все</button>
+          <button class="fchip" data-f="bot">Боты</button>
+          <button class="fchip" data-f="site">Сайты</button>
+          <button class="fchip" data-f="soon">Скоро</button>
+        </div>
+      </div>
 
-  <!-- СЕКЦИЯ 3: КОНТАКТЫ -->
-  <section id="contacts">
-    <h2>Контакты</h2>
-    <div class="contacts-grid">
-      <a href="https://t.me/Narko62" target="_blank" class="contact-card">
-        <div class="icon">✈️</div>
-        <h3>Личный профиль</h3>
-        <p>@Narko62</p>
-      </a>
-      <a href="https://t.me/Narkoshar2" target="_blank" class="contact-card">
-        <div class="icon">📢</div>
-        <h3>Telegram-канал</h3>
-        <p>t.me/Narkoshar2</p>
-      </a>
+      <div class="cards" id="cards">
+        <article class="card reveal" data-type="bot">
+          <div class="art art-bot"><span class="big">🛒</span><i></i><i></i></div>
+          <div class="body">
+            <span class="badge">Python / Aiogram</span>
+            <h3>SakuraShop Bot</h3>
+            <p>Интерактивный бот-магазин. Демонстрация архитектуры меню, корзины и оплаты. Полный цикл разработки от идеи до запуска.</p>
+            <ul class="ticks">
+              <li>Каталог и корзина в inline-кнопках</li>
+              <li>Оформление и оплата заказа</li>
+              <li>Работает в Telegram прямо сейчас</li>
+            </ul>
+            <div class="actions">
+              <a class="btn sm" href="https://t.me/gt1337a_bot" target="_blank" rel="noopener">Открыть бота ➔</a>
+              <a class="btn sm ghost" href="#demo">Демо на сайте</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="card reveal" data-type="site" style="--d:.12s">
+          <div class="art art-mc"><span class="big">⛏️</span></div>
+          <div class="body">
+            <span class="badge">HTML / CSS / JS</span>
+            <h3>MC Server Landing Page</h3>
+            <p>Лендинг для игрового сервера с уникальными режимами (SkyWars, BedWars). Дизайн включает информацию об античите, производительности и ценах.</p>
+            <ul class="ticks">
+              <li>Режимы игры, цены и информация о сервере</li>
+              <li>Адаптивная вёрстка</li>
+              <li>Опубликован на GitHub Pages</li>
+            </ul>
+            <div class="actions">
+              <a class="btn sm" href="https://kolenkka.github.io/tester/" target="_blank" rel="noopener">Посмотреть сайт ➔</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="card reveal" data-type="soon" style="--d:.24s">
+          <div class="art art-soon"><span class="big">🚀</span></div>
+          <div class="body">
+            <span class="badge">In Development</span>
+            <h3>Будущий проект</h3>
+            <p>Секретный проект, над которым я работаю прямо сейчас. Подробности появятся совсем скоро!</p>
+            <div class="loader" aria-label="В разработке"><i></i></div>
+            <div class="actions">
+              <a class="btn sm ghost" href="https://t.me/Narkoshar2" target="_blank" rel="noopener">Узнать первым 📢</a>
+            </div>
+          </div>
+        </article>
+      </div>
     </div>
   </section>
 
-</div>
+  <!-- ============ DEMO CHAT ============ -->
+  <section id="demo">
+    <div class="container demo">
+      <div class="reveal" data-dir="left">
+        <span class="eyebrow">Интерактив</span>
+        <h2>Попробуй бота прямо здесь</h2>
+        <p>Это упрощённая демо-версия SakuraShop Bot на JavaScript. Нажимай кнопки, добавляй товары в корзину и «оплачивай» заказ. Так же он работает в Telegram.</p>
+        <ul class="ticks">
+          <li>Нажми «Каталог» и выбери товар</li>
+          <li>Загляни в «Корзину»</li>
+          <li>Нажми «Оплатить» и получи номер заказа</li>
+        </ul>
+        <div class="actions">
+          <a class="btn" href="https://t.me/gt1337a_bot" target="_blank" rel="noopener">Открыть настоящего бота ➔</a>
+          <button class="btn ghost" id="chatReset" type="button">Начать заново</button>
+        </div>
+      </div>
 
-<footer>© 2026 · Made with 🌸 by Narkosha</footer>
+      <div class="phone reveal" data-dir="right" style="--d:.15s">
+        <div class="ph-head">
+          <div class="ava">🌸</div>
+          <div><b>SakuraShop Bot</b><small>бот · демо</small></div>
+        </div>
+        <div class="ph-body" id="chatBody" aria-live="polite"></div>
+        <div class="ph-kb" id="chatKb">
+          <button type="button" data-a="catalog">🛍 Каталог</button>
+          <button type="button" data-a="cart">🛒 Корзина</button>
+          <button type="button" data-a="help">ℹ️ Помощь</button>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<script>
-  /* === Генерация лепестков === */
-  const petalsContainer = document.getElementById('petals');
-  const PETAL_COUNT = 25; 
+  <!-- ============ PATH ============ -->
+  <!-- Этапы можно поменять на свои настоящие даты и события -->
+  <section id="path" class="alt">
+    <div class="container narrow">
+      <div class="sec-head" style="display:block;text-align:center">
+        <div class="reveal">
+          <span class="eyebrow">История</span>
+          <h2>Мой путь</h2>
+        </div>
+      </div>
+      <ol class="timeline">
+        <li class="reveal" data-dir="left"><b>Старт</b><p>Первые шаги в программировании и HTML-вёрстке.</p></li>
+        <li class="reveal" data-dir="right"><b>Python</b><p>Изучаю язык и делаю первых Telegram-ботов на aiogram.</p></li>
+        <li class="reveal" data-dir="left"><b>SakuraShop Bot</b><p>Собираю бота-магазин: меню, корзина и оплата.</p></li>
+        <li class="reveal" data-dir="right"><b>MC Server Landing</b><p>Верстаю лендинг для игрового сервера и публикую его.</p></li>
+        <li class="reveal now" data-dir="left"><b>Сейчас</b><p>Работаю над секретным проектом и оттачиваю навыки.</p></li>
+      </ol>
+    </div>
+  </section>
 
-  for (let i = 0; i < PETAL_COUNT; i++) {
-    const petal = document.createElement('div');
-    petal.classList.add('petal');
-    petal.style.left = Math.random() * 100 + '%';
-    petal.style.animationDuration = (Math.random() * 8 + 7) + 's';
-    petal.style.animationDelay = (Math.random() * 10) + 's';
-    const scale = Math.random() * 0.7 + 0.6;
-    petal.style.transform = `scale(${scale})`;
-    petalsContainer.appendChild(petal);
-  }
+  <!-- ============ SERVICES ============ -->
+  <section id="services">
+    <div class="container">
+      <div class="sec-head">
+        <div class="reveal">
+          <span class="eyebrow">Что могу сделать</span>
+          <h2>Услуги</h2>
+        </div>
+      </div>
+      <div class="services">
+        <article class="svc reveal">
+          <span class="emo">🤖</span>
+          <h3>Бот-визитка</h3>
+          <p>Приветствие, контакты, ответы на частые вопросы, кнопки-ссылки.</p>
+          <div class="price">Цена — договоримся</div>
+          <a href="https://t.me/Narko62" target="_blank" rel="noopener" class="link">Обсудить →</a>
+        </article>
+        <article class="svc reveal" style="--d:.12s">
+          <span class="emo">🛒</span>
+          <h3>Бот-магазин</h3>
+          <p>Каталог, корзина и оформление заказа, как в SakuraShop Bot.</p>
+          <div class="price">Цена — договоримся</div>
+          <a href="https://t.me/Narko62" target="_blank" rel="noopener" class="link">Обсудить →</a>
+        </article>
+        <article class="svc reveal" style="--d:.24s">
+          <span class="emo">🌐</span>
+          <h3>Лендинг</h3>
+          <p>Адаптивная одностраничная вёрстка с анимациями под ваш проект.</p>
+          <div class="price">Цена — договоримся</div>
+          <a href="https://t.me/Narko62" target="_blank" rel="noopener" class="link">Обсудить →</a>
+        </article>
+      </div>
+    </div>
+  </section>
 
-  /* === Scroll-анимации появления === */
-  const sections = document.querySelectorAll('section');
-  const observerOptions = {
-    root: null,
-    rootMargin: '0px',
-    threshold: 0.1
-  };
+  <!-- ============ CONTACTS ============ -->
+  <section id="contacts" style="padding-top:20px">
+    <div class="container">
+      <div class="cta-box reveal" data-dir="zoom">
+        <h2>Давай сделаем что-то крутое?</h2>
+        <p>Есть идея для бота или сайта? Напиши мне в Telegram или подпишись на канал, чтобы не пропустить секретный проект.</p>
+        <div class="cta">
+          <a class="btn light" href="https://t.me/Narko62" target="_blank" rel="noopener">✈️ Личный профиль @Narko62</a>
+          <a class="btn outline" href="https://t.me/Narkoshar2" target="_blank" rel="noopener">📢 Канал t.me/Narkoshar2</a>
+          <button class="btn outline" id="copy" type="button" data-copy="@Narko62">📋 Скопировать ник</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        
-        // Обновляем активную кнопку в меню при скролле
-        const id = entry.target.getAttribute('id');
-        updateNavActive(id);
-      }
-    });
-  }, observerOptions);
+<footer>
+  <div class="container copy">
+    <span>© 2026 · Made with 🌸 by Narkosha</span>
+    <a href="#top">Наверх ↑</a>
+  </div>
+</footer>
 
-  sections.forEach(sec => {
-    if(sec.id !== 'about') { 
-       sec.classList.remove('visible'); 
-       observer.observe(sec);
-    } else {
-        sec.classList.add('visible');
-    }
-  });
+<a class="fab" href="https://t.me/Narko62" target="_blank" rel="noopener" aria-label="Написать в Telegram">✈️</a>
+<div class="toast" id="toast" role="status"></div>
 
-  function updateNavActive(sectionId) {
-    const links = document.querySelectorAll('.nav-link');
-    links.forEach(link => {
-      link.classList.remove('active');
-      if (link.getAttribute('href') === '#' + sectionId) {
-        link.classList.add('active');
-      }
-    });
-  }
-
-  /* === Исправленная логика навигации (Скролл) === */
-  document.querySelectorAll('.nav-scroll-link').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      e.preventDefault();
-      
-      const targetId = this.getAttribute('href').substring(1);
-      const targetSection = document.getElementById(targetId);
-      
-      if (!targetSection) return;
-
-      const headerOffset = 70;
-      const elementPosition = targetSection.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-      
-      document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-      if(this.classList.contains('nav-link')) {
-          this.classList.add('active');
-      }
-    });
-  });
-
-</script>
-
+<script src="script.js" defer></script>
 </body>
 </html>
