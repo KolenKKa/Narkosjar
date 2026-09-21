@@ -1,35 +1,22 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Narkosha | Портфолио</title>
-<meta name="description" content="Портфолио Narkosha: Telegram-боты на Python и aiogram, HTML-вёрстка. Посмотри работы и попробуй демо бота прямо на сайте.">
-
-<!-- Open Graph: красивая карточка при отправке ссылки в Telegram.
-     Когда сделаешь картинку 1200x630, залей её рядом и раскомментируй строку с og:image -->
-<meta property="og:type" content="website">
-<meta property="og:title" content="Narkosha | Портфолио">
-<meta property="og:description" content="Telegram-боты на Python и aiogram + HTML-вёрстка. Демо бота прямо на сайте 🌸">
-<meta property="og:url" content="https://narkoshar.vercel.app/">
-<!-- <meta property="og:image" content="https://narkoshar.vercel.app/preview.png"> -->
-<meta name="theme-color" content="#e8407b">
-
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌸</text></svg>">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Unbounded:wght@500;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Narkosha | Портфолио</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Unbounded:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body id="top">
 
-<canvas id="petals" aria-hidden="true"></canvas>
+<canvas id="petals"></canvas>
 
-<!-- ============ HEADER ============ -->
 <header class="header" id="header">
   <div class="container bar">
-    <a href="#top" class="logo" aria-label="Narkosha — наверх">Narkosha<span>🌸</span></a>
-    <nav class="nav" id="nav" aria-label="Основная навигация">
+    <a href="#top" class="logo"><span>🌸</span> Narkosha</a>
+    <nav class="nav" id="nav">
       <a href="#about">Кто я?</a>
       <a href="#works">Мои работы</a>
       <a href="#demo">Демо бота</a>
@@ -38,11 +25,11 @@
       <a href="#contacts">Контакты</a>
     </nav>
     <div class="tools">
-      <button class="icon-btn" id="theme" aria-label="Сменить тему">
-        <svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      <button class="icon-btn" id="theme" title="Сменить тему">
+        <svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       </button>
       <button class="icon-btn burger" id="burger" aria-label="Меню" aria-expanded="false">
-        <svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       </button>
     </div>
   </div>
@@ -50,62 +37,60 @@
 </header>
 
 <main>
-  <!-- ============ HERO ============ -->
-  <div class="hero" id="top">
+  <!-- HERO -->
+  <section class="hero" id="hero">
     <div class="container hero-grid">
       <div>
-        <span class="eyebrow reveal in">Портфолио · Python &amp; Web</span>
-        <h1 class="reveal in" style="--d:.1s">Привет, я <em>Narkosha</em></h1>
-        <p class="typed reveal in" style="--d:.2s">Я делаю <b id="typed"></b><span class="caret"></span></p>
-        <p class="lead reveal in" style="--d:.3s">Пишу Telegram-ботов на Python и aiogram, верстаю сайты и каждый день учусь новому. Ниже мои работы, а бота можно даже попробовать прямо здесь.</p>
-        <div class="cta reveal in" style="--d:.4s">
-          <a href="#works" class="btn">Смотреть работы →</a>
-          <a href="https://t.me/Narko62" target="_blank" rel="noopener" class="btn ghost">Написать в Telegram</a>
+        <span class="eyebrow reveal">Портфолио · Python & Web</span>
+        <h1 class="reveal" style="--d:.1s">Привет, я <em>Narkosha</em></h1>
+        <p class="typed reveal" style="--d:.2s">Я делаю <b id="typed"></b><span class="caret"></span></p>
+        <p class="lead reveal" style="--d:.3s">Пишу Telegram-ботов на Python и aiogram, верстаю сайты и каждый день учусь новому. Ниже мои работы, а бота можно даже попробовать прямо здесь.</p>
+        <div class="actions reveal" style="--d:.4s">
+          <a class="btn" href="#works">Смотреть работы →</a>
+          <a class="btn ghost" href="https://t.me/Narko62" target="_blank" rel="noopener">Написать в Telegram</a>
         </div>
       </div>
 
-      <div class="hero-visual reveal in" data-dir="zoom" style="--d:.25s">
+      <div class="hero-visual reveal" data-dir="right" style="--d:.5s">
         <div class="glow"></div>
         <div class="code">
           <div class="dots"><i></i><i></i><i></i><span>bot.py</span></div>
 <pre><code><span class="c"># мой первый /start 🌸</span>
-<span class="k">@dp</span>.message(<span class="f">Command</span>(<span class="s">"start"</span>))
+<span class="k">@dp.message</span>(Command(<span class="s">"start"</span>))
 <span class="k">async def</span> <span class="f">start</span>(msg: Message):
     <span class="k">await</span> msg.answer(
         <span class="s">"Привет! Добро пожаловать 🌸"</span>,
         reply_markup=main_menu()
     )</code></pre>
         </div>
-        <span class="chip-float c1">🐍 Python</span>
-        <span class="chip-float c2">✈️ aiogram</span>
-        <span class="chip-float c3">🧱 HTML / CSS</span>
-        <span class="chip-float c4">⚡ JavaScript</span>
+        <div class="chip-float c1">🐍 Python</div>
+        <div class="chip-float c2">✈️ aiogram</div>
+        <div class="chip-float c3">🧱 HTML / CSS</div>
+        <div class="chip-float c4">⚡ JavaScript</div>
       </div>
     </div>
-    <div class="scroll-hint" aria-hidden="true"></div>
-  </div>
+    <div class="scroll-hint"></div>
+  </section>
 
-  <!-- ============ ABOUT ============ -->
+  <!-- ABOUT -->
   <section id="about">
     <div class="container about">
-      <div class="reveal" data-dir="left">
-        <span class="eyebrow">Кто я?</span>
-        <h2>Мне 13 лет и я уже пишу ботов</h2>
-        <p>Мне 13 лет, я учусь в 7 классе. Занимаюсь разработкой Telegram-ботов на Python и aiogram, владею HTML-вёрсткой. Моя цель — выйти на стабильный заработок через программирование и реализовать свои самые смелые мечты.</p>
-        <div class="facts">
-          <div><b data-count="2">0</b><span>готовых проекта</span></div>
-          <div><b data-count="1">0</b><span>проект в разработке</span></div>
-          <div><b data-count="100" data-suffix="%">0</b><span>энтузиазма</span></div>
+      <div>
+        <span class="eyebrow reveal">Кто я?</span>
+        <h2 class="reveal">Мне 13 лет и я уже пишу ботов</h2>
+        <p class="reveal">Мне 13 лет, я учусь в 7 классе. Занимаюсь разработкой Telegram-ботов на Python и aiogram, владею HTML-вёрсткой. Моя цель — выйти на стабильный заработок через программирование и реализовать свои самые смелые мечты.</p>
+        <div class="facts reveal">
+          <div><b class="counter" data-count="0">0</b><span>готовых проекта</span></div>
+          <div><b class="counter" data-count="0">0</b><span>проект в разработке</span></div>
+          <div><b class="counter" data-count="100" data-suffix="%">0%</b><span>энтузиазма</span></div>
         </div>
       </div>
-
-      <div class="stack reveal" data-dir="right" style="--d:.15s">
+      <div class="stack reveal" data-dir="right">
         <h3>Мой стек</h3>
         <div class="tags">
           <span>🐍 Python</span><span>✈️ aiogram</span><span>🤖 Telegram Bot API</span>
           <span>🧱 HTML</span><span>🎨 CSS</span><span>⚡ JavaScript</span>
         </div>
-        <!-- Отредактируй под себя: что реально изучаешь сейчас -->
         <h3 class="next">Следующие цели</h3>
         <div class="tags soft">
           <span>🗄️ SQLite</span><span>🌿 Git / GitHub</span><span>☁️ Хостинг ботов</span>
@@ -114,15 +99,15 @@
     </div>
   </section>
 
-  <!-- ============ WORKS ============ -->
+  <!-- WORKS -->
   <section id="works" class="alt">
     <div class="container">
-      <div class="sec-head">
-        <div class="reveal">
+      <div class="sec-head reveal">
+        <div>
           <span class="eyebrow">Портфолио</span>
           <h2>Мои работы</h2>
         </div>
-        <div class="filters reveal" style="--d:.1s" id="filters">
+        <div class="filters">
           <button class="fchip on" data-f="all">Все</button>
           <button class="fchip" data-f="bot">Боты</button>
           <button class="fchip" data-f="site">Сайты</button>
@@ -130,9 +115,10 @@
         </div>
       </div>
 
-      <div class="cards" id="cards">
-        <article class="card reveal" data-type="bot">
-          <div class="art art-bot"><span class="big">🛒</span><i></i><i></i></div>
+      <div class="cards">
+        <!-- SakuraShop Bot -->
+        <article class="card pop reveal" data-type="bot" style="--d:.1s">
+          <div class="art art-bot"><i></i><i></i><span class="big">🛒</span></div>
           <div class="body">
             <span class="badge">Python / Aiogram</span>
             <h3>SakuraShop Bot</h3>
@@ -149,7 +135,8 @@
           </div>
         </article>
 
-        <article class="card reveal" data-type="site" style="--d:.12s">
+        <!-- MC Server Landing -->
+        <article class="card pop reveal" data-type="site" style="--d:.2s">
           <div class="art art-mc"><span class="big">⛏️</span></div>
           <div class="body">
             <span class="badge">HTML / CSS / JS</span>
@@ -166,15 +153,16 @@
           </div>
         </article>
 
-        <article class="card reveal" data-type="soon" style="--d:.24s">
+        <!-- Secret Project -->
+        <article class="card pop reveal" data-type="soon" style="--d:.3s">
           <div class="art art-soon"><span class="big">🚀</span></div>
           <div class="body">
             <span class="badge">In Development</span>
-            <h3>Будущий проект</h3>
-            <p>Секретный проект, над которым я работаю прямо сейчас. Подробности появятся совсем скоро!</p>
-            <div class="loader" aria-label="В разработке"><i></i></div>
+            <h3>Магазин напитков Xola</h3>
+            <p>Онлайн-платформа для заказа освежающих напитков. Удобный каталог вкусов, быстрая корзина и доставка любимых лимонадов прямо к вашей двери.</p>
+            <div class="loader"><i></i></div>
             <div class="actions">
-              <a class="btn sm ghost" href="https://t.me/Narkoshar2" target="_blank" rel="noopener">Узнать первым 📢</a>
+              <a class="btn sm outline" href="https://spotwopay.vercel.app/" target="_blank" rel="noopener">Узнать первым 📢</a>
             </div>
           </div>
         </article>
@@ -182,104 +170,100 @@
     </div>
   </section>
 
-  <!-- ============ DEMO CHAT ============ -->
+  <!-- DEMO CHAT -->
   <section id="demo">
     <div class="container demo">
-      <div class="reveal" data-dir="left">
-        <span class="eyebrow">Интерактив</span>
-        <h2>Попробуй бота прямо здесь</h2>
-        <p>Это упрощённая демо-версия SakuraShop Bot на JavaScript. Нажимай кнопки, добавляй товары в корзину и «оплачивай» заказ. Так же он работает в Telegram.</p>
-        <ul class="ticks">
+      <div>
+        <span class="eyebrow reveal">Интерактив</span>
+        <h2 class="reveal">Попробуй бота прямо здесь</h2>
+        <p class="reveal">Это упрощённая демо-версия SakuraShop Bot на JavaScript. Нажимай кнопки, добавляй товары в корзину и «оплачивай» заказ. Так же он работает в Telegram.</p>
+        <ul class="ticks reveal">
           <li>Нажми «Каталог» и выбери товар</li>
           <li>Загляни в «Корзину»</li>
           <li>Нажми «Оплатить» и получи номер заказа</li>
         </ul>
-        <div class="actions">
+        <div class="actions reveal">
           <a class="btn" href="https://t.me/gt1337a_bot" target="_blank" rel="noopener">Открыть настоящего бота ➔</a>
-          <button class="btn ghost" id="chatReset" type="button">Начать заново</button>
         </div>
       </div>
 
-      <div class="phone reveal" data-dir="right" style="--d:.15s">
+      <div class="phone reveal" data-dir="left">
         <div class="ph-head">
           <div class="ava">🌸</div>
           <div><b>SakuraShop Bot</b><small>бот · демо</small></div>
         </div>
-        <div class="ph-body" id="chatBody" aria-live="polite"></div>
+        <div class="ph-body" id="chatBody"></div>
         <div class="ph-kb" id="chatKb">
-          <button type="button" data-a="catalog">🛍 Каталог</button>
-          <button type="button" data-a="cart">🛒 Корзина</button>
-          <button type="button" data-a="help">ℹ️ Помощь</button>
+          <button data-a="catalog">🛍 Каталог</button>
+          <button data-a="cart">🛒 Корзина</button>
+          <button data-a="help">ℹ️ Помощь</button>
+        </div>
+        <div style="text-align:center;padding:6px;background:#2c1a2b;border-radius:0 0 32px 32px">
+          <button class="btn sm light" id="chatReset">Начать заново</button>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ============ PATH ============ -->
-  <!-- Этапы можно поменять на свои настоящие даты и события -->
+  <!-- PATH -->
   <section id="path" class="alt">
     <div class="container narrow">
-      <div class="sec-head" style="display:block;text-align:center">
-        <div class="reveal">
-          <span class="eyebrow">История</span>
-          <h2>Мой путь</h2>
-        </div>
-      </div>
+      <span class="eyebrow reveal">История</span>
+      <h2 class="reveal">Мой путь</h2>
       <ol class="timeline">
-        <li class="reveal" data-dir="left"><b>Старт</b><p>Первые шаги в программировании и HTML-вёрстке.</p></li>
-        <li class="reveal" data-dir="right"><b>Python</b><p>Изучаю язык и делаю первых Telegram-ботов на aiogram.</p></li>
-        <li class="reveal" data-dir="left"><b>SakuraShop Bot</b><p>Собираю бота-магазин: меню, корзина и оплата.</p></li>
-        <li class="reveal" data-dir="right"><b>MC Server Landing</b><p>Верстаю лендинг для игрового сервера и публикую его.</p></li>
-        <li class="reveal now" data-dir="left"><b>Сейчас</b><p>Работаю над секретным проектом и оттачиваю навыки.</p></li>
+        <li class="reveal"><b>Старт</b><p>Первые шаги в программировании и HTML-вёрстке.</p></li>
+        <li class="reveal"><b>Python</b><p>Изучаю язык и делаю первых Telegram-ботов на aiogram.</p></li>
+        <li class="reveal"><b>SakuraShop Bot</b><p>Собираю бота-магазин: меню, корзина и оплата.</p></li>
+        <li class="reveal"><b>MC Server Landing</b><p>Верстаю лендинг для игрового сервера и публикую его.</p></li>
+        <li class="now reveal"><b>Сейчас</b><p>Работаю над секретным проектом и оттачиваю навыки.</p></li>
       </ol>
     </div>
   </section>
 
-  <!-- ============ SERVICES ============ -->
+  <!-- SERVICES -->
   <section id="services">
     <div class="container">
-      <div class="sec-head">
-        <div class="reveal">
+      <div class="sec-head reveal">
+        <div>
           <span class="eyebrow">Что могу сделать</span>
           <h2>Услуги</h2>
         </div>
       </div>
       <div class="services">
-        <article class="svc reveal">
-          <span class="emo">🤖</span>
+        <div class="svc reveal" style="--d:.1s">
+          <div class="emo">🤖</div>
           <h3>Бот-визитка</h3>
           <p>Приветствие, контакты, ответы на частые вопросы, кнопки-ссылки.</p>
           <div class="price">Цена — договоримся</div>
-          <a href="https://t.me/Narko62" target="_blank" rel="noopener" class="link">Обсудить →</a>
-        </article>
-        <article class="svc reveal" style="--d:.12s">
-          <span class="emo">🛒</span>
+          <a class="link" href="https://t.me/Narko62" target="_blank" rel="noopener">Обсудить →</a>
+        </div>
+        <div class="svc reveal" style="--d:.2s">
+          <div class="emo">🛒</div>
           <h3>Бот-магазин</h3>
           <p>Каталог, корзина и оформление заказа, как в SakuraShop Bot.</p>
           <div class="price">Цена — договоримся</div>
-          <a href="https://t.me/Narko62" target="_blank" rel="noopener" class="link">Обсудить →</a>
-        </article>
-        <article class="svc reveal" style="--d:.24s">
-          <span class="emo">🌐</span>
+          <a class="link" href="https://t.me/Narko62" target="_blank" rel="noopener">Обсудить →</a>
+        </div>
+        <div class="svc reveal" style="--d:.3s">
+          <div class="emo">🌐</div>
           <h3>Лендинг</h3>
           <p>Адаптивная одностраничная вёрстка с анимациями под ваш проект.</p>
           <div class="price">Цена — договоримся</div>
-          <a href="https://t.me/Narko62" target="_blank" rel="noopener" class="link">Обсудить →</a>
-        </article>
+          <a class="link" href="https://t.me/Narko62" target="_blank" rel="noopener">Обсудить →</a>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ============ CONTACTS ============ -->
-  <section id="contacts" style="padding-top:20px">
-    <div class="container">
-      <div class="cta-box reveal" data-dir="zoom">
+  <!-- CTA -->
+  <section id="contacts">
+    <div class="container narrow">
+      <div class="cta-box reveal">
         <h2>Давай сделаем что-то крутое?</h2>
         <p>Есть идея для бота или сайта? Напиши мне в Telegram или подпишись на канал, чтобы не пропустить секретный проект.</p>
         <div class="cta">
-          <a class="btn light" href="https://t.me/Narko62" target="_blank" rel="noopener">✈️ Личный профиль @Narko62</a>
+          <a class="btn outline" href="https://t.me/Narko62" target="_blank" rel="noopener">✈️ Личный профиль @Narko62</a>
           <a class="btn outline" href="https://t.me/Narkoshar2" target="_blank" rel="noopener">📢 Канал t.me/Narkoshar2</a>
-          <button class="btn outline" id="copy" type="button" data-copy="@Narko62">📋 Скопировать ник</button>
         </div>
       </div>
     </div>
@@ -288,14 +272,16 @@
 
 <footer>
   <div class="container copy">
-    <span>© 2026 · Made with 🌸 by Narkosha</span>
-    <a href="#top">Наверх ↑</a>
+    <div>© 2026 · Made with 🌸 by Narkosha</div>
+    <div>
+      <button class="btn sm ghost" id="copy" data-copy="@Narko62">📋 Скопировать ник</button>
+    </div>
   </div>
 </footer>
 
-<a class="fab" href="https://t.me/Narko62" target="_blank" rel="noopener" aria-label="Написать в Telegram">✈️</a>
-<div class="toast" id="toast" role="status"></div>
+<a class="fab" href="#top" title="Наверх ↑">↑</a>
+<div class="toast" id="toast"></div>
 
-<script src="script.js" defer></script>
+<script src="script.js"></script>
 </body>
 </html>
